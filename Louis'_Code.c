@@ -29,9 +29,10 @@ const int SB2_ECHO_PIN = 22;
 bool end = false;
 
 void setup() {
-  // put your setup code here, to run once:
-  pinMode(ENA, OUTPUT);
-  pinMode(ENB, OUTPUT);
+  pinMode(ENUR, OUTPUT);
+  pinMode(ENLR, OUTPUT);
+  pinMode(ENUL, OUTPUT);
+  pinMode(ENLL, OUTPUT);
   pinMode(MUR_F, OUTPUT);
   pinMode(MUR_B, OUTPUT);
   pinMode(MLR_F, OUTPUT);
@@ -41,7 +42,7 @@ void setup() {
   pinMode(MLL_F, OUTPUT);
   pinMode(MLL_B, OUTPUT);
   
-  pinMode(SF1_TRIGGER_PIN, OUTUT);
+  pinMode(SF1_TRIGGER_PIN, OUTPUT);
   pinMode(SF1_ECHO_PIN, INPUT);
   pinMode(SF2_TRIGGER_PIN, OUTPUT);
   pinMode(SF2_ECHO_PIN, INPUT);
@@ -78,7 +79,7 @@ void readDistance() {
   digitalWrite(SF1_TRIGGER_PIN, LOW);
   delay(5);
 
-  duration = PulseIn(SF1_ECHO_PIN, HIGH);
+  duration = pulseIn(SF1_ECHO_PIN, HIGH);
   SF1_distance = (duration/2)/29.1;
 
   // SF2
@@ -89,7 +90,7 @@ void readDistance() {
   digitalWrite(SF2_TRIGGER_PIN, LOW);
   delay(5);
 
-  duration = PulseIn(SF2_ECHO_PIN, HIGH);
+  duration = pulseIn(SF2_ECHO_PIN, HIGH);
   SF2_distance = (duration/2)/29.1;
 
   // SL
@@ -100,7 +101,7 @@ void readDistance() {
   digitalWrite(SL_TRIGGER_PIN, LOW);
   delay(5);
 
-  duration = PulseIn(SL_ECHO_PIN, HIGH);
+  duration = pulseIn(SL_ECHO_PIN, HIGH);
   SL_distance = (duration/2)/29.1;
 
   // SR
@@ -111,7 +112,7 @@ void readDistance() {
   digitalWrite(SR_TRIGGER_PIN, LOW);
   delay(5);
 
-  duration = PulseIn(SR_ECHO_PIN, HIGH);
+  duration = pulseIn(SR_ECHO_PIN, HIGH);
   SR_distance = (duration/2)/29.1;
 
   // SB1
@@ -122,7 +123,7 @@ void readDistance() {
   digitalWrite(SB1_TRIGGER_PIN, LOW);
   delay(5);
 
-  duration = PulseIn(SB1_ECHO_PIN, HIGH);
+  duration = pulseIn(SB1_ECHO_PIN, HIGH);
   SB1_distance = (duration/2)/29.1;
 
   // SB2
@@ -133,7 +134,7 @@ void readDistance() {
   digitalWrite(SB2_TRIGGER_PIN, LOW);
   delay(5);
 
-  duration = PulseIn(SB2_ECHO_PIN, HIGH);
+  duration = pulseIn(SB2_ECHO_PIN, HIGH);
   SB2_distance = (duration/2)/29.1;
 }
 
@@ -157,7 +158,7 @@ void loop() {
       analogWrite(ENUR, 50);
       analogWrite(ENUL, 30);
       analogWrite(ENLL, 30);
-      delay(100) 
+      delay(100);
     }
 
     // go straight
@@ -209,7 +210,7 @@ void loop() {
 
   if (end) {
     // turn left if left sensor detect the cylinder
-    if (SL_distance == 10 || SR_distance == 10) {
+    if (SL_distance <= 10 || SR_distance <= 10) {
       SG90.write(180);
     }
     if (SL_distance < SR_distance) {
